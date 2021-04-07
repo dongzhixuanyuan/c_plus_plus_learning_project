@@ -30,7 +30,6 @@ public:
 
     void saveToFile(const string &path);
 
-    string readFromFile(string &path);
 };
 
 

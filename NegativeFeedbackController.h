@@ -13,6 +13,7 @@
 
 using std::cout;
 using std::cin;
+using std::endl;
 using std::string;
 
 class NegativeFeedbackController {
@@ -34,6 +35,8 @@ public:
     bool doFeedback(string postId);
 
     void resetReportRecord();
+
+    static const string FILE_PATH_OF_REPORT_RECORD;
 
     static NegativeFeedbackController &getInstance() {
         static NegativeFeedbackController instance;

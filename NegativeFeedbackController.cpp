@@ -3,16 +3,21 @@
 //
 
 #include "NegativeFeedbackController.h"
+#include "util/Util.h"
+
+const string NegativeFeedbackController::FILE_PATH_OF_REPORT_RECORD = "report_record.txt";
 
 NegativeFeedbackController::NegativeFeedbackController() {
-    int times = 0;
     tm *ltm = localtime(&timeStamp);
     today = ltm->tm_mday;
-//   todo 从文件中读取上次的信息
-    std::shared_ptr<vector<string>> reportIds(new vector<string>());
-    reportIds.get()->push_back("333");
-    reportIds.get()->push_back("555");
-    operateRecord = std::make_shared<OperateRecord>(times, today, reportIds);
+    string cacheStr = Util::readStringFromFile(FILE_PATH_OF_REPORT_RECORD);
+    if (!cacheStr.empty()){
+        operateRecord = std::make_shared<OperateRecord>(OperateRecord::fromJson(cacheStr));
+    }
+    cout << "times:" << operateRecord->mTime <<  "，day: " << operateRecord->mDay << endl;
+    std::for_each(operateRecord->reportIds->begin(), operateRecord->reportIds->end(), [](const auto &i) {
+        cout << i << " ";
+    });
 }
 
 
@@ -36,8 +41,7 @@ bool NegativeFeedbackController::doFeedback(string postId) {
         reportIds->push_back(postId);
         operateRecord = std::make_shared<OperateRecord>(0, today, reportIds);
         operateRecord->mTime++;
-//        todo 保存到文件
-        operateRecord->saveToFile("report_record.txt");
+        operateRecord->saveToFile(FILE_PATH_OF_REPORT_RECORD);
         return true;
     } else {
         if (operateRecord->mTime < 5) {
@@ -46,8 +50,7 @@ bool NegativeFeedbackController::doFeedback(string postId) {
             if (it == operateRecord->reportIds->end()) {
                 operateRecord->mTime++;
                 operateRecord->reportIds->push_back(postId);
-//                todo 保存到文件
-                operateRecord->saveToFile("report_record.txt");
+                operateRecord->saveToFile(FILE_PATH_OF_REPORT_RECORD);
             }
             return true;
         } else {
@@ -58,5 +61,6 @@ bool NegativeFeedbackController::doFeedback(string postId) {
 }
 
 void NegativeFeedbackController::resetReportRecord() {
-//        todo 清理存储的文件
+    OperateRecord record;
+    record.saveToFile(FILE_PATH_OF_REPORT_RECORD);
 }

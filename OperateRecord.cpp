@@ -4,13 +4,20 @@
 
 #include "OperateRecord.h"
 
-OperateRecord::OperateRecord() {
+#include <memory>
 
+OperateRecord::OperateRecord() {
+    mTime = 0;
+    time_t timeStamp = time(0);
+    tm *ltm = localtime(&timeStamp);
+    mDay = ltm->tm_mday;
+    reportIds = std::make_shared<vector<string>>();
 }
 
 OperateRecord::OperateRecord(const OperateRecord &src) {
     mTime = src.mTime;
     mDay = src.mDay;
+    reportIds = src.reportIds;
 }
 
 OperateRecord::OperateRecord(int time, short month, std::shared_ptr<vector<string>> reportIds) : mTime(time),
@@ -29,11 +36,18 @@ json OperateRecord::toJson() {
 }
 
 OperateRecord OperateRecord::fromJson(string &jsonStr) {
-    json j = json::parse(jsonStr);
     OperateRecord record;
-    record.mTime = j["time"];
-    record.mDay = j["day"];
-    std::vector<string> reportIdsString = j["reportIds"].get<std::vector<string>>();
+    try {
+        json j = json::parse(jsonStr);
+        if (!j.empty()) {
+            record.mTime = j["time"];
+            record.mDay = j["day"];
+            std::vector<string> reportIdsString = j["reportIds"].get<std::vector<string>>();
+            record.reportIds = std::make_shared<std::vector<string>>(reportIdsString);
+        }
+    } catch (json::parse_error& error ){
+        std::cerr << error.what() << std::endl;
+    }
     return record;
 }
 
@@ -43,11 +57,4 @@ void OperateRecord::saveToFile(const string &path) {
     if (o.is_open()){
         o << std::setw(4) << toJson() << std::endl;
     }
-}
-
-string OperateRecord::readFromFile(string &path) {
-    std::ifstream ifstream(path);
-    std::string str((std::istreambuf_iterator<char>(ifstream)), std::istreambuf_iterator<char>());
-    return str;
-
 }
