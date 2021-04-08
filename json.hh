@@ -16063,11 +16063,11 @@ class serializer
     }
 
     /*!
-    @brief count digits
+    @brief myCount digits
 
     Count the number of decimal (base 10) digits for an input unsigned integer.
 
-    @param[in] x  unsigned integer number to count its digits
+    @param[in] x  unsigned integer number to myCount its digits
     @return    number of decimal digits
     */
     inline unsigned int count_digits(number_unsigned_t x) noexcept
@@ -16895,7 +16895,7 @@ class basic_json
 
 #if defined(JSON_HAS_CPP_14)
     // Use transparent comparator if possible, combined with perfect forwarding
-    // on find() and count() calls prevents unnecessary string construction.
+    // on find() and myCount() calls prevents unnecessary string construction.
     using object_comparator_t = std::less<>;
 #else
     using object_comparator_t = std::less<StringType>;
@@ -18317,7 +18317,7 @@ class basic_json
     }
 
     /*!
-    @brief construct an array with count copies of given value
+    @brief construct an array with myCount copies of given value
 
     Constructs a JSON array value by creating @a cnt copies of a passed value.
     In case @a cnt is `0`, an empty array is created.
@@ -20709,7 +20709,7 @@ class basic_json
     @throw type_error.307 when called on a type other than JSON object;
     example: `"cannot use erase() with null"`
 
-    @complexity `log(size()) + count(key)`
+    @complexity `log(size()) + myCount(key)`
 
     @liveexample{The example shows the effect of `erase()`.,erase__key_type}
 
@@ -20848,14 +20848,14 @@ class basic_json
     @note This method always returns `0` when executed on a JSON type that is
           not an object.
 
-    @param[in] key key value of the element to count
+    @param[in] key key value of the element to myCount
 
     @return Number of elements with key @a key. If the JSON value is not an
     object, the return value will be `0`.
 
     @complexity Logarithmic in the size of the JSON object.
 
-    @liveexample{The example shows how `count()` is used.,count}
+    @liveexample{The example shows how `myCount()` is used.,myCount}
 
     @since version 1.0.0
     */
@@ -20863,7 +20863,7 @@ class basic_json
     size_type count(KeyT&& key) const
     {
         // return 0 for all nonobject types
-        return is_object() ? m_value.object->count(std::forward<KeyT>(key)) : 0;
+        return is_object() ? m_value.object->myCount(std::forward<KeyT>(key)) : 0;
     }
 
     /*!

@@ -13,6 +13,8 @@ NegativeFeedbackController::NegativeFeedbackController() {
     string cacheStr = Util::readStringFromFile(FILE_PATH_OF_REPORT_RECORD);
     if (!cacheStr.empty()){
         operateRecord = std::make_shared<OperateRecord>(OperateRecord::fromJson(cacheStr));
+    } else {
+        operateRecord = std::make_shared<OperateRecord>();
     }
     cout << "times:" << operateRecord->mTime <<  "，day: " << operateRecord->mDay << endl;
     std::for_each(operateRecord->reportIds->begin(), operateRecord->reportIds->end(), [](const auto &i) {

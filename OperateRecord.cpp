@@ -42,8 +42,11 @@ OperateRecord OperateRecord::fromJson(string &jsonStr) {
         if (!j.empty()) {
             record.mTime = j["time"];
             record.mDay = j["day"];
+//            这里的数据是在栈上分配的，为了把数据放到record对象中，需要把从栈上分配的数据复制到从堆上分配的。
             std::vector<string> reportIdsString = j["reportIds"].get<std::vector<string>>();
-            record.reportIds = std::make_shared<std::vector<string>>(reportIdsString);
+            std::shared_ptr<vector<string>> newVector(new vector<string>);
+            newVector->assign(reportIdsString.begin(), reportIdsString.end());
+            record.reportIds = newVector;
         }
     } catch (json::parse_error& error ){
         std::cerr << error.what() << std::endl;
