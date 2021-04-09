@@ -33,12 +33,21 @@ FooContainer testSharePtr() {
     return fooContainer;
 }
 
+void rightValueTest() {
+    Foo f;
+    asm("nop");
+    Foo &&rf = std::move(f);
+    asm("nop");
+
+}
+
 
 int main() {
 //    std::thread t(negativeFeedbackTest);
 //    t.join();
-    FooContainer container = testSharePtr();
-    container.validateSharedPoint();
+//    FooContainer container = testSharePtr();
+//    container.validateSharedPoint();
+    rightValueTest();
     system( "read -n 1 -s -p \"Press any key to continue...\"" );
     return 0;
 }
