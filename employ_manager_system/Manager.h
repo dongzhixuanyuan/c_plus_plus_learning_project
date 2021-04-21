@@ -7,13 +7,17 @@
 
 #include "BaseWorker.h"
 
-class Manager : public BaseWorker {
-public:
-    Manager();
-//    Manager(int id, string &name, WorkerType &workerType) : BaseWorker(id, name, workerType) {}
+namespace WorkerManageSys {
+    class Manager : public BaseWorker {
+    public:
+        Manager();
 
-    void doWork() override;
-};
+        Manager(int id, string name, WorkerType workerType = WorkerType::Manager);
+
+        void doWork() override;
+    };
+
+}
 
 
 #endif //PRACTICE_PROJECT_MANAGER_H

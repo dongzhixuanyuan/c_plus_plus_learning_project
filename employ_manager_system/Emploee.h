@@ -7,14 +7,16 @@
 #include "BaseWorker.h"
 
 
-class Employee: public BaseWorker {
-public:
-     Employee();
-//    Employee(int id, string &name, WorkerType &workerType):BaseWorker(id,name,workerType){};
+namespace WorkerManageSys {
+    class Employee: public BaseWorker {
+    public:
+        Employee();
+        Employee(int id, string name,WorkerType type = WorkerType::Employee);
 
-    void doWork() override;
+        void doWork() override;
 
-};
+    };
+}
 
 
 #endif //PRACTICE_PROJECT_EMPLOEE_H

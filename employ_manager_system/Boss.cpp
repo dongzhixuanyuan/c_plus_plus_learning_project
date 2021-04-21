@@ -4,10 +4,13 @@
 
 #include "Boss.h"
 
-Boss::Boss():BaseWorker() {
-    type = WorkerType::Boss;
+namespace WorkerManageSys {
+    Boss::Boss():BaseWorker() {
+        type = WorkerType::Boss;
+    }
+    Boss::Boss(int id, string name, WorkerType type ):BaseWorker(id,name,type) {}
+    void Boss::doWork() {
+        cout << "Boss plan work" << endl;
+    }
 }
 
-void Boss::doWork() {
-    cout << "Boss plan work" << endl;
-}

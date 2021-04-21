@@ -1,10 +1,13 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <stdio.h>
 #include "NegativeFeedbackController.h"
 #include "json.hh"
 #include "tmpTest/Foo.h"
 #include "employ_manager_system/WorkManager.h"
+
+#define clear() printf("\033[H\033[J")
 
 using json = nlohmann::json;
 int myCount = 0;
@@ -44,34 +47,40 @@ void rightValueTest() {
 
 }
 
-void workManageSystemTest() {
-    WorkManager &manager = WorkManager::getInstance();
-    manager.showReminder();
-    while (true) {
-        int operation = -1;
-        cin >> operation;
-        switch (operation) {
-            case 0:
-                manager.showWorker();
-                break;
-            case 1:
-                manager.addWorker();
-                break;
-            case 2:
-                manager.deleteWorker();
-                break;
-            case 3:
-//            manager.queryWorker();
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-        }
+namespace WorkerManageSys {
+    void workManageSystemTest() {
+        WorkerManageSys:: WorkManager &manager = WorkerManageSys::WorkManager::getInstance();
         manager.showReminder();
+        while (true) {
+            int operation = -1;
+            cin >> operation;
+            switch (operation) {
+                case 0:
+                    manager.showWorker();
+                    break;
+                case 1:
+                    manager.addWorker();
+                    break;
+                case 2:
+                    manager.deleteWorker();
+                    break;
+                case 3: {
+                    BaseWorker* worker =  manager.queryWorker();
+                    cout << worker->toString() << endl;
+                    break;
+                }
+                case 4:
+                    break;
+                case 5:
+                    clear();
+                    manager.showReminder();
+                    break;
+                case 6:
+                    exit(0);
+            }
+        }
     }
+
 }
 
 
@@ -81,7 +90,16 @@ int main() {
 //    FooContainer container = testSharePtr();
 //    container.validateSharedPoint();
 //    rightValueTest();
-    workManageSystemTest();
+
+
+
+    WorkerManageSys::workManageSystemTest();
+//    WorkerManageSys::BaseWorker* woker = new WorkerManageSys::Employee;
+//    woker->id = 0;
+//    woker->name = "liudong";
+//    woker->type = WorkerManageSys::WorkerType::Employee;
+//    cout << woker->toJson()<< endl;
+
 
     system("read -n 1 -s -p \"Press any key to continue...\"");
     return 0;

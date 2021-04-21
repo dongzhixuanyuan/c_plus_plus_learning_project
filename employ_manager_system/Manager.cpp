@@ -4,11 +4,18 @@
 
 #include "Manager.h"
 
-Manager::Manager():BaseWorker() {
-    this->type = WorkerType::Manager;
-}
+namespace WorkerManageSys {
+    Manager::Manager():BaseWorker() {
+        this->type = WorkerType::Manager;
+    }
 
 
-void Manager::doWork() {
-    cout << "Do worke from Boss" << endl;
+    void Manager::doWork() {
+        cout << "Do worke from Boss" << endl;
+    }
+
+    Manager::Manager(int id, string name, WorkerType workerType) : BaseWorker(id, name, workerType) {
+
+    }
 }
+

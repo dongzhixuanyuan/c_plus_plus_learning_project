@@ -6,11 +6,17 @@
 #define PRACTICE_PROJECT_BOSS_H
 #include "BaseWorker.h"
 
-class Boss : public BaseWorker {
-public:
-    Boss();
-    void doWork() override;
-};
+namespace WorkerManageSys {
+    class Boss : public BaseWorker {
+    public:
+        Boss();
+
+        Boss(int id, string name, WorkerType type = WorkerType::Boss);
+        void doWork() override;
+    };
+
+}
+
 
 
 #endif //PRACTICE_PROJECT_BOSS_H

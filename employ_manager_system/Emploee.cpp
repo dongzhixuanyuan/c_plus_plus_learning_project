@@ -4,10 +4,17 @@
 
 #include "Emploee.h"
 
-Employee::Employee():BaseWorker() {
-    this->type = WorkerType::Employee;
+namespace WorkerManageSys {
+    Employee::Employee(int id, string name, WorkerType type) : BaseWorker(id, name, type) {
+
+    }
+
+    Employee::Employee() : BaseWorker() {
+        this->type = WorkerType::Employee;
+    }
+
+    void Employee::doWork() {
+        cout << "Do work for Manager" << endl;
+    }
 }
 
-void Employee::doWork() {
-    cout << "Do work for Manager" << endl;
-}
