@@ -175,7 +175,7 @@ namespace WorkerManageSys {
     bool WorkManager::saveToFile() {
         std::ofstream f(filePath, std::ios::trunc);
         if (f.is_open()) {
-            vector<string> v;
+            vector<json> v;
             for (auto &item:*workers) {
                 v.push_back((*item).toJson());
             }

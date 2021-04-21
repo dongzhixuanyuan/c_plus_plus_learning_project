@@ -11,7 +11,7 @@ namespace WorkerManageSys {
     }
 
     BaseWorker::~BaseWorker() {
-
+        cout << "调用了BaseWorker的析构函数" << endl;
     }
 
     BaseWorker::BaseWorker() {
