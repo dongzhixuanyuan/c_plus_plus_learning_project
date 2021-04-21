@@ -40,7 +40,7 @@ namespace WorkerManageSys {
 
         void deleteWorker();
 
-        void modifyWorker(int id);
+        void modifyWorker();
 
         BaseWorker *queryWorker();
 

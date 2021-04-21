@@ -16,7 +16,6 @@ namespace WorkerManageSys {
         if (!cacheStr.empty()) {
             try {
                 json result = json::parse(cacheStr);
-                cout << result << endl;
                 for (auto it = result.begin(); it != result.end(); it++) {
                     string type = (*it)["type"];
                     int id = (*it)["id"];
@@ -41,8 +40,8 @@ namespace WorkerManageSys {
 
     WorkManager::~WorkManager() {
         cout << "执行了WorkManager的析构函数" << endl;
-        std::for_each(workers->begin(),workers->end(),[](auto& wokerPtr ){
-           delete wokerPtr;
+        std::for_each(workers->begin(), workers->end(), [](auto &wokerPtr) {
+            delete wokerPtr;
         });
     }
 
@@ -93,10 +92,12 @@ namespace WorkerManageSys {
             int eid;
             cin >> eid;
             if (workerNum > 0) {
-                for (auto it = workers->begin(); it != workers->end(); it++) {
+                for (auto it = workers->begin(); it != workers->end();) {
                     if ((*it)->id == eid) {
-                        workers->erase(it);
+                        it = workers->erase(it);
                         workerNum--;
+                    } else {
+                        it++;
                     }
                 }
             }
@@ -105,10 +106,12 @@ namespace WorkerManageSys {
             string name;
             cin >> name;
             if (workerNum > 0) {
-                for (auto it = workers->begin(); it != workers->end(); it++) {
+                for (auto it = workers->begin(); it != workers->end();) {
                     if ((*it)->name == name) {
-                        workers->erase(it);
+                        it = workers->erase(it);
                         workerNum--;
+                    } else {
+                        it++;
                     }
                 }
             }
@@ -116,7 +119,9 @@ namespace WorkerManageSys {
         saveToFile();
     }
 
-    void WorkManager::modifyWorker(int id) {
+    void WorkManager::modifyWorker() {
+        cout << "请输入需要修改的员工id: " << endl;
+        int id = Util::getInputInt();
         if (workerNum > 0) {
             for (auto it = workers->begin(); it != workers->end(); it++) {
                 if ((*it)->id == id) {

@@ -66,10 +66,13 @@ namespace WorkerManageSys {
                     break;
                 case 3: {
                     BaseWorker* worker =  manager.queryWorker();
-                    cout << worker->toString() << endl;
+                    if (worker != nullptr) {
+                        cout << worker->toString() << endl;
+                    }
                     break;
                 }
                 case 4:
+                    manager.modifyWorker();
                     break;
                 case 5:
                     clear();
